@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    <%= title || 'Logged out' %>
+  </title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <% if (redirectDelay) { %>
+    <meta http-equiv="refresh" content="<%= redirectDelay %>;<%= redirectTo || '/' %>">
+    <% } %>
+      <style>
+        :root {
+          --bg: #f6f8fb;
+          --card: #fff;
+          --muted: #6b7280;
+          --accent: #0366d6;
+        }
+
+        html,
+        body {
+          height: 100%
+        }
+
+        body {
+          margin: 0;
+          font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial;
+          background: var(--bg);
+          display: grid;
+          place-items: center
+        }
+
+        .card {
+          background: var(--card);
+          padding: 28px 32px;
+          border-radius: 8px;
+          box-shadow: 0 6px 18px rgba(16, 24, 40, .08);
+          max-width: 420px;
+          width: 100%;
+          text-align: center
+        }
+
+        h1 {
+          margin: 0 0 8px;
+          font-size: 20px
+        }
+
+        p {
+          margin: 0 0 16px;
+          color: var(--muted)
+        }
+
+        a {
+          color: var(--accent);
+          text-decoration: none;
+          margin: 0 8px
+        }
+
+        .small {
+          font-size: 13px;
+          color: var(--muted)
+        }
+      </style>
+</head>
+
+<body>
+  <div class="card" role="main" aria-live="polite">
+    <h1>
+      <%= heading || 'You have signed out' %>
+    </h1>
+    <p>
+      <%= message || 'Your session has ended. For security, please close your browser if you are on a public computer.'
+        %>
+    </p>
+
+    <div class="small">
+      <a href="<%= homePath || '/' %>">Home</a>
+      <a href="<%= loginPath || '/login' %>">Sign in</a>
+    </div>
+
+    <% if (showButton) { %>
+      <form action="<%= loginPath || '/login' %>" method="get" style="margin-top:16px">
+        <button type="submit"
+          style="padding:8px 14px;border-radius:6px;border:1px solid #e6e9ef;background:var(--accent);color:#fff;cursor:pointer">Sign
+          in</button>
+      </form>
+      <% } %>
+
+        <% if (redirectDelay) { %>
+          <p class="small" style="margin-top:12px">You will be redirected in <span id="count">
+              <%= redirectDelay %>
+            </span> second(s).</p>
+          <script>
+            (function () {
+              var s = document.getElementById('count');
+              var t = parseInt(s.textContent, 10);
+              if (!isNaN(t) && t > 0) {
+                var iv = setInterval(function () {
+                  t--; s.textContent = t;
+                  if (t <= 0) clearInterval(iv);
+                }, 1000);
+              }
+            })();
+          </script>
+          <% } %>
+  </div>
+</body>
+
+</html>
